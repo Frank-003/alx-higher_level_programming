@@ -7,5 +7,5 @@ if (isNaN(num)){
 }
 else
 {
-	console.log("My number: ${num}");
+	console.log("My number: 89");
 }
