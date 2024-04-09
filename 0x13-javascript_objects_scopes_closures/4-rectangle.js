@@ -19,3 +19,5 @@ class Rectangle {
 		this.height = this.width * 2;
 	}
 }
+
+module.exports = Rectangle;
