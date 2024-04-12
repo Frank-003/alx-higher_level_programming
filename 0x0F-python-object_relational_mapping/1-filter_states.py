@@ -17,3 +17,9 @@ if __name__ == "__main__":
     if len(sys.argv) != 4:
         print("Usage: python script.py <username> <password> <database>")
         sys.exit(1)
+
+    username = sys.argv[1]
+    password = sys.argv[2]
+    database = sys.argv[3]
+
+    list_states_starting_with_N(username, password, database)
