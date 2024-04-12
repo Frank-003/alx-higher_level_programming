@@ -1,5 +1,5 @@
 #!/usr/bin/python3
-"""Module that lists all states from mySQL database"""
+"""Module that lists all states from mySQL database."""
 import MySQLdb
 import sys
 

@@ -1,5 +1,5 @@
 #!/usr/bin/python3
-"""MOdule that lists all the states from hbtn_0e_0_usa database"""
+"""MOdule that lists all the states from hbtn_0e_0_usa database."""
 import MySQLdb
 import sys
 
@@ -11,7 +11,8 @@ query = "SELECT * FROM states WHERE name = %s ORDER BY id ASC"
     rows = cursor.fetchall()
     for row in rows:
         print(row)
-cursor.close()
+
+    cursor.close()
     db.close()
     if __name__ == "__main__":
         if len(sys.argv) != 5:
