@@ -1,4 +1,5 @@
 #!/usr/bin/python3
+"""MOdule that retrieve and print the state with letters from a MySQL using SQLAlchemy."""
 import sys
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
