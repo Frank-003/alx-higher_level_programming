@@ -4,28 +4,12 @@ import sys
 import MySQLdb
 
 if __name__ == "__main__":
-    if len(sys.argv) != 5:
-        print("Usage: python script.py <username> <password> <database> <state_name>")
-        sys.exit(1)
 
-    username, password, db_name, state_name = sys.argv[1], sys.argv[2], sys.argv[3], sys.argv[4]
+    db = MySQL.connect(user=sys.argv[1], passwd=sys.argv[2], db=sys.argv[3])
+    c db.cursor
 
-    # Connect to MySQL server
-    db = MySQLdb.connect(host="localhost", port=3306, user=username, passwd=password, db=db_name)
+    c.execute("SELECT * \
+                FROM `states` \
+            WHERE BINARY `name` ='{}'".format(sys.argv[4]))
 
-    # Create a cursor object
-    cursor = db.cursor()
-
-    # Execute the SQL query
-    cursor.execute("SELECT * FROM states WHERE name = %s ORDER BY id ASC", (state_name,))
-
-    # Fetch all the rows
-    rows = cursor.fetchall()
-
-    # Display the results
-    for row in rows:
-        print(row)
-
-    # Close the cursor and database connection
-    cursor.close()
-    db.close()
+    [print(state) for state in c.fetchall()]
