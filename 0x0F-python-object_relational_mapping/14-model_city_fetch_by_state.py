@@ -1,5 +1,6 @@
 #!/usr/bin/python3
-"""Module that deletes states containing the letter "a" from MySQL database using SQLAlchemy."""
+"""Prints all City objects from the database hbtn_0e_14_usa"""
+
 import sys
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
@@ -8,11 +9,23 @@ from model_city import City
 
 
 if __name__ == "__main__":
-    engine = create_engine('mysql+mysqldb://{}:{}@localhost:3306/{}'
-                           .format(sys.argv[1], sys.argv[2], sys.argv[3]))
+    if len(sys.argv) != 4:
+        print("Usage: {} username password database".format(sys.argv[0]))
+        sys.exit(1)
+
+    username, password, database = sys.argv[1], sys.argv[2], sys.argv[3]
+
+    engine = create_engine('mysql+mysqldb://{}:{}@localhost:3306/{}'.
+                           format(username, password, database),
+                           pool_pre_ping=True)
     Base.metadata.create_all(engine)
+
     Session = sessionmaker(bind=engine)
-    Session = Session()
-    for instance in (session.query(State.name, City.id, City.name)
-                     .filter(State.id == City.state_id)):
-        print(instance[0] + ": {" +(instance[1]) ") " +instance[2])
+    session = Session()
+
+    cities = session.query(City).join(State).order_by(City.id).all()
+
+    for city in cities:
+        print("{}: ({}) {}".format(city.state.name, city.id, city.name))
+
+    session.close()
