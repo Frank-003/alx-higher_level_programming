@@ -1,16 +1,27 @@
 #!/usr/bin/python3
 """Module that lists all states from hbtn_0e_4_usa database."""
 
-import MySQLdb
 import sys
+import MySQLdb
 
-if__name__ == "__main__":
-    db = MySQLdb.connect(host='localhost', user=sys.argv[1],passwd=sys.argv[2], db=sys[3], port=3306)
+if __name__ == "__main__":
+    if len(sys.argv) != 5:
+        print("Usage: python script.py <username> <password> <database> <state_name>")
+        sys.exit(1)
 
-    c = db.cursor()
-    c.execute("""SELECT cities.name FROM cities INNER JOIN states ON states.id=cities.state_id WHERE states.name=%s""", (sys.argv[4].))
-    rows = c.fetchall()
-    tmp = list(row[0] for row in row)
-    print(*tmp, sep=", ")
-    c.close()
+    username, password, db_name, state_name = sys.argv[1], sys.argv[2], sys.argv[3], sys.argv[4]
+
+    db = MySQLdb.connect(host="localhost", port=3306, user=username, passwd=password, db=db_name)
+    cursor = db.cursor()
+
+    query = "SELECT cities.id, cities.name FROM cities JOIN states ON cities.state_id = states.id WHERE states.name = %s ORDER BY cities.id ASC"
+
+    cursor.execute(query, (state_name,))
+
+    rows = cursor.fetchall()
+
+    for row in rows:
+        print(row)
+
+    cursor.close()
     db.close()
