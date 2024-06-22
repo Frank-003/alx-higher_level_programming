@@ -1,0 +1,46 @@
+import sqlite3
+
+class DatabaseManager:
+    def __init__(self, db_name="shincheonji_kenya_church.db"):
+        self.connection = sqlite3.connect(db_name)
+        self.create_table()
+
+    def create_table(self):
+        create_table_sql = """
+        CREATE TABLE IF NOT EXISTS members (
+            id INTEGER PRIMARY KEY AUTOINCREMENT,
+            name TEXT NOT NULL,
+            age INTEGER NOT NULL,
+            email TEXT NOT NULL,
+            phone TEXT NOT NULL
+        );
+        """
+        with self.connection:
+            self.connection.execute(create_table_sql)
+
+    def insert_member(self, name, age, email, phone):
+        insert_sql = "INSERT INTO members (name, age, email, phone) VALUES (?, ?, ?, ?)"
+        with self.connection:
+            self.connection.execute(insert_sql, (name, age, email, phone))
+
+    def get_members(self):
+        select_sql = "SELECT * FROM members"
+        with self.connection:
+            cursor = self.connection.execute(select_sql)
+            return cursor.fetchall()
+
+    def close(self):
+        self.connection.close()
+
+# Data class for member representation (optional)
+class Member:
+    def __init__(self, member_id, name, age, email, phone):
+        self.id = member_id
+        self.name = name
+        self.age = age
+        self.email = email
+        self.phone = phone
+
+    def __repr__(self):
+        return f"Member(ID: {self.id}, Name: {self.name}, Age: {self.age}, Email: {self.email}, Phone: {self.phone})"
+

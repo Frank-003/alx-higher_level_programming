@@ -1,0 +1,3 @@
+python -m venv shincheonji_env
+source shincheonji_env/bin/activate  # On Windows use `shincheonji_env\Scripts\activate`
+
